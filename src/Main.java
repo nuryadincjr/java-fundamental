@@ -1,89 +1,78 @@
 import java.util.Scanner;
-
 public class Main {
 
     public static void main(String[] args) {
-    
         Scanner scanner = new Scanner(System.in);
 
         Android android = new Android("sms", "telpon", "bluethooth");
-        boolean boolContinue = true;
+        boolean boolCon = true;
         
         do{
-            System.out.println("Silahkan pilih spesifikasi smartphone yang adna inginkan");
-            System.out.println("1. NFC");
-            System.out.println("2. Camera");
-            System.out.println("3. Fingerprint");
-            System.out.println("4. Face recognation");
-            System.out.println("5. GPS");
-
-            System.out.print("Masukan pilihan: ");
-            int pilih = Integer.parseInt(scanner.nextLine());
+            menu();
+            int pilih = scanner.nextInt();
 
             switch(pilih) {
                 case 1:
-                    System.out.println("\nSilahkan pilih Oprating System:");
-                    System.out.println("1. Android");
-                    System.out.println("2. IOS");
+                optional("Silahkan pilih Oprating System:", 
+                    "Android", "IOS");
+                pilih = scanner.nextInt();
+                
+                if(pilih == 1) {
+                    optional("Silahkan pilih brand perangkat Anda untuk proses pembuatan device Anda:", 
+                    "Samsung", "Xiaomi");
+                    pilih = scanner.nextInt();
 
-                    System.out.print("Masukan pilihan: ");
-                    pilih = Integer.parseInt(scanner.nextLine());
-                    
                     if(pilih == 1) {
-                        System.out.println("\nSilahkan pilih brand perangkat Anda untuk proses pembuatan device Anda:");
-                        System.out.println("1. Samsung");
-                        System.out.println("2. Xiaomi");
-
-                        System.out.print("Masukan pilihan: ");
-                        pilih = Integer.parseInt(scanner.nextLine());
-
-                        if(pilih == 1) {
-                            System.out.println("\nSilahkan beri nama perangkat Anda:");
-                            System.out.print("Masukan nama: ");
-                            String name = scanner.nextLine();
-                            
-                            android.setDeviceName(name);
-                            android.setBrand("Samsung");
-                            
-                            System.out.println("Pembuatan device berhasil, berikut info device Anda:");
-                            android.display();
-                            
-                            System.out.println("\nApakan Anda ingin membuat device lagi?");
-                            System.out.print("Masukan pilihan (Y/n): ");
-                            String con = scanner.nextLine();
-                            if(con.equalsIgnoreCase("n")) {
-                                boolContinue = false;
-                            }
-
-                        } else{
-                            System.out.println("\nSilahkan beri nama perangkat Anda:");
-                            System.out.print("Masukan nama: ");
-                            String name = scanner.nextLine();
-
-                            android.setDeviceName(name);
-                            android.setBrand("Xiaomi");
-                            
-                            System.out.println("Pembuatan device berhasil, berikut info device Anda:");
-                            android.display();
-                            
-                            System.out.println("\nApakan Anda ingin membuat device lagi?");
-                            System.out.print("Masukan pilihan (Y/n): ");
-                            String con = scanner.nextLine();
-                            if(con.equalsIgnoreCase("n")) {
-                                boolContinue = false;
-                            }
-                        }
+                        android(android, scanner, boolCon, "Samsung");
                     } else{
-                        // ios
+                        android(android, scanner, boolCon, "Xiaomi");
                     }
-                    
+                }
                     break;
                 default:
                     System.out.println("Spesifikasi belum ada!");
                 }
-            }while(boolContinue);
-
+            }while(boolCon);
             System.out.println("Program telah keluar!");
         }
+
+        public static final void menu() {
+            String menu = "Silahkan pilih spesifikasi smartphone yang adna inginkan"+
+                "\n1. NFC"+
+                "\n2. Camera"+
+                "\n3. Fingerprint"+
+                "\n4. Face recognation"+
+                "\n5. GPS";
+                System.out.println(menu);
+                System.out.print("Masukan pilihan: ");
+        }
+
+        public static final void optional(String message, String option1, String option2) {
+            String option = 
+                    "\n" + message+
+                    "\n1. "+ option1+
+                    "\n2. "+ option2;
+                System.out.println(option);
+                System.out.print("Masukan pilihan: ");
+        }
+
+        public static void android(Android android, Scanner scanner, Boolean boolCon, String brand){
+            System.out.print("\nSilahkan beri nama perangkat Anda:\n"+
+                "Masukan nama: ");
+                String name = scanner.next();
+                
+            android.setDeviceName(name);
+            android.setBrand(brand);
+            
+            System.out.println("\nPembuatan device berhasil, berikut info device Anda:");
+            android.display();
+            
+            System.out.print("\nApakan Anda ingin membuat device lagi?\n"+
+            "Masukan pilihan (Y/n): ");
+
+            String con = scanner.nextLine();
+            if(con.equalsIgnoreCase("n")) {
+                boolCon = false;
+            }
+        }
     }
-    
